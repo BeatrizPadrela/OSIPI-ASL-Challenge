@@ -17,7 +17,7 @@ Dir = '/home/bestevespadrela/lood_storage/divi/Projects/ExploreASL/OSIPI_Challen
 SubList = xASL_adm_GetFileList(Dir, '^sub-', 'FPList',[0 Inf], true); %Creates a list of subjects inside the folder (1 for population_based and 9 for synthetic data)
 
 % Criation of a cell to write the results:
-CBFvalues = cell{length(SubList),9};
+CBFvalues = cell(length(SubList),9);
 CBFvalues{1,1}='Subject';
 CBFvalues{1,2}='CBF PVGMmasked mean';
 CBFvalues{1,3}='CBF PVGMmasked SD';
