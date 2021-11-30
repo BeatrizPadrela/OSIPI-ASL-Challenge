@@ -1,5 +1,5 @@
 
-% ### CBF in GM and WM wiht and without PVC ### %
+% ### CBF in Gray Matter and White Matter with and without PVC ### %
 %
 % Here we use PVGM/PVWM as a mask. And overlap with either CBF.nii or with CBFGM/WM.nii
 %
@@ -14,14 +14,28 @@
 %Dir = '/home/bestevespadrela/lood_storage/divi/Projects/ExploreASL/OSIPI_Challenge_Data/Population_based/derivatives/ExploreASL/'; % derivatives/ExploreASL directory
 Dir = '/home/bestevespadrela/lood_storage/divi/Projects/ExploreASL/OSIPI_Challenge_Data/synthetic/derivatives/ExploreASL/';
 
-SubList = xASL_adm_GetFileList(Dir, '^sub-', 'FPList',[0 Inf], true);
+SubList = xASL_adm_GetFileList(Dir, '^sub-', 'FPList',[0 Inf], true); %Creates a list of subjects inside the folder (1 for population_based and 9 for synthetic data)
+
+% Criation of a cell to write the results:
+CBFvalues = cell{length(SubList),9};
+CBFvalues{1,1}='Subject';
+CBFvalues{1,2}='CBF PVGMmasked mean';
+CBFvalues{1,3}='CBF PVGMmasked SD';
+CBFvalues{1,4}='CBFPVC PVGMmasked mean';
+CBFvalues{1,5}='CBFPVC PVGMmasked SD';
+CBFvalues{1,6}='CBF PVWMmasked mean';
+CBFvalues{1,7}='CBF PVWMmasked SD';
+CBFvalues{1,8}='CBFPVC PVWMmasked mean';
+CBFvalues{1,9}='CBFPVC PVWMmasked SD';
+
+
 
 for iS = 1:length(SubList)
     
 [~, SubjName] = fileparts(SubList{iS});
 
-    % #### GM ####
-PVGM = xASL_io_Nifti2Im(fullfile(SubList{iS},'ASL_1', 'PVgm.nii.gz')); % when subjects have only 1 session (ASL_1)
+    % #### Gray Matter ####
+PVGM = xASL_io_Nifti2Im(fullfile(SubList{iS},'ASL_1', 'PVgm.nii.gz')); % when subjects have only 1 session (ASL_1). For the OSIPI challenge this is always true
     % PVGM over CBF.nii
 PVGM_mask = PVGM(:,:,:)>0.7;
 CBF = xASL_io_Nifti2Im(fullfile(SubList{iS},'ASL_1', 'CBF.nii.gz')); 
@@ -37,8 +51,8 @@ CBFPVC_GMmasked_mean = mean(nonzeros(CBFPVC_GMmasked(:)));
 CBFPVC_GMmasked_SD = std(nonzeros(CBFPVC_GMmasked(:)));
 
 
-    % #### WM ####
-PVWM = xASL_io_Nifti2Im(fullfile(SubList{iS},'ASL_1', 'PVwm.nii.gz')); % when subjects have only 1 session (ASL_1)
+    % #### White Matter ####
+PVWM = xASL_io_Nifti2Im(fullfile(SubList{iS},'ASL_1', 'PVwm.nii.gz')); % when subjects have only 1 session (ASL_1). For the OSIPI challenge this is always true
     % WM over CBF.nii
 PVWM_mask = PVWM(:,:,:)>0.9;
 CBF = xASL_io_Nifti2Im(fullfile(SubList{iS},'ASL_1', 'CBF.nii.gz')); 
@@ -53,16 +67,6 @@ CBFPVC_WMmasked = OverlappingMask(CBFPVC_WM,PVWM_mask_PVC);
 CBFPVC_WMmasked_mean = mean(nonzeros(CBFPVC_WMmasked(:)));
 CBFPVC_WMmasked_SD = std(nonzeros(CBFPVC_WMmasked(:)));
 
-
-CBFvalues{1,1}='Subject';
-CBFvalues{1,2}='CBF PVGMmasked mean';
-CBFvalues{1,3}='CBF PVGMmasked SD';
-CBFvalues{1,4}='CBFPVC PVGMmasked mean';
-CBFvalues{1,5}='CBFPVC PVGMmasked SD';
-CBFvalues{1,6}='CBF PVWMmasked mean';
-CBFvalues{1,7}='CBF PVWMmasked SD';
-CBFvalues{1,8}='CBFPVC PVWMmasked mean';
-CBFvalues{1,9}='CBFPVC PVWMmasked SD';
 
 CBFvalues{iS+1,1}= SubjName;
 CBFvalues{iS+1,2}= CBF_GMmasked_mean;
