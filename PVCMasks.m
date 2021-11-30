@@ -40,15 +40,15 @@ PVGM = xASL_io_Nifti2Im(fullfile(SubList{iS},'ASL_1', 'PVgm.nii.gz')); % when su
 PVGM_mask = PVGM(:,:,:)>0.7;
 CBF = xASL_io_Nifti2Im(fullfile(SubList{iS},'ASL_1', 'CBF.nii.gz')); 
 CBF_GMmasked = OverlappingMask(CBF,PVGM_mask);
-CBF_GMmasked_mean = mean(isnan(nonzeros(CBF_GMmasked(:))));
-CBF_GMmasked_SD = std(nonzeros(CBF_GMmasked(:)));
+CBF_GMmasked_mean = nanmean(nonzeros(CBF_GMmasked(:))); % nanmean calculates the mean without NaN values
+CBF_GMmasked_SD = nanstd(nonzeros(CBF_GMmasked(:))); % nanstd calculates the mean without NaN values
 
     % PVGM over CBFGM.nii (PVC CBF)
 PVGM_mask_PVC = PVGM(:,:,:)>0.5;
 CBFPVC_GM = xASL_io_Nifti2Im(fullfile(SubList{iS},'ASL_1', 'CBFgm.nii.gz')); 
 CBFPVC_GMmasked = OverlappingMask(CBFPVC_GM,PVGM_mask_PVC);
-CBFPVC_GMmasked_mean = mean(nonzeros(CBFPVC_GMmasked(:)));
-CBFPVC_GMmasked_SD = std(nonzeros(CBFPVC_GMmasked(:)));
+CBFPVC_GMmasked_mean = nanmean(nonzeros(CBFPVC_GMmasked(:)));
+CBFPVC_GMmasked_SD = nanstd(nonzeros(CBFPVC_GMmasked(:)));
 
 
     % #### White Matter ####
@@ -57,15 +57,15 @@ PVWM = xASL_io_Nifti2Im(fullfile(SubList{iS},'ASL_1', 'PVwm.nii.gz')); % when su
 PVWM_mask = PVWM(:,:,:)>0.9;
 CBF = xASL_io_Nifti2Im(fullfile(SubList{iS},'ASL_1', 'CBF.nii.gz')); 
 CBF_WMmasked = OverlappingMask(CBF,PVWM_mask);
-CBF_WMmasked_mean = mean(nonzeros(CBF_WMmasked(:)));
-CBF_WMmasked_SD = std(nonzeros(CBF_WMmasked(:)));
+CBF_WMmasked_mean = nanmean(nonzeros(CBF_WMmasked(:)));
+CBF_WMmasked_SD = nanstd(nonzeros(CBF_WMmasked(:)));
 
     % PVWM over CBFWM.nii (PVC CBF)
 PVWM_mask_PVC = PVWM(:,:,:)>0.7;
 CBFPVC_WM = xASL_io_Nifti2Im(fullfile(SubList{iS},'ASL_1', 'CBFwm.nii.gz')); 
 CBFPVC_WMmasked = OverlappingMask(CBFPVC_WM,PVWM_mask_PVC);
-CBFPVC_WMmasked_mean = mean(nonzeros(CBFPVC_WMmasked(:)));
-CBFPVC_WMmasked_SD = std(nonzeros(CBFPVC_WMmasked(:)));
+CBFPVC_WMmasked_mean = nanmean(nonzeros(CBFPVC_WMmasked(:)));
+CBFPVC_WMmasked_SD = nanstd(nonzeros(CBFPVC_WMmasked(:)));
 
 
 CBFvalues{iS+1,1}= SubjName;
