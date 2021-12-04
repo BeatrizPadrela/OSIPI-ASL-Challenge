@@ -30,7 +30,7 @@ CBFvalues{1,9}='CBFPVC PVWMmasked SD';
 
 
 
-for iS = 1:length(SubList)
+for iS = 7:length(SubList)
     
 [~, SubjName] = fileparts(SubList{iS});
 
@@ -77,5 +77,13 @@ CBFvalues{iS+1,6}= CBF_WMmasked_mean;
 CBFvalues{iS+1,7}= CBF_WMmasked_SD;
 CBFvalues{iS+1,8}= CBFPVC_WMmasked_mean;
 CBFvalues{iS+1,9}= CBFPVC_WMmasked_SD;
+
+% Interpretation for the OSIPI Challenge:
+
+% CBF_GMmasked_mean + CBF_GMmasked_SD -> GM_CBF.txt
+% CBF_WMmasked_mean + CBF_WMmasked_SD -> WM_CBF.txt
+
+% CBFPVC_GMmasked_mean + CBFPVC_GMmasked_SD -> GMpv_CBF.txt
+% CBFPVC_WMmasked_mean + CBFPVC_WMmasked_SD -> WMpv_CBF.txt
 
 end
